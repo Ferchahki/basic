@@ -20,9 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/category/all',[CategoryController::class,'AllCat'])->name('all.category');
-
-Route::post('/category/add', [CategoryController::class, 'AddCat'])->name('store.category');
+Route::get('/category/all',[CategoryController::class,'AllCat'])->name('category.all');
+Route::post('/category/add', [CategoryController::class, 'AddCat'])->name('category.store');
+Route::get('/category/edit/{id}',[CategoryController::class, 'Edit'])->name('category.edit');
+Route::post('/category/update/{id}',[CategoryController::class, 'Update']);
+Route::get('/softdelete/category/{id}',[CategoryController::class, 'SoftDelete']);
+Route::get('/category/restore/{id}',[CategoryController::class, 'Restore']);
 
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
