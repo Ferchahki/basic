@@ -8,96 +8,126 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class CategoryController
+ *
+ * This class handles the CRUD operations for the Category model.
+ * It allows users to view, add, edit, delete, and restore categories.
+ */
 class CategoryController extends Controller
 {
-
+    /**
+     * Create a new CategoryController instance.
+     * Apply the 'auth' middleware to require authentication for all methods.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
-    //
-    public function AllCat(){
 
-        // $categories = DB::table('categories')
-        //         ->join('users','categories.user_id','users.id')
-        //         ->select('categories.*','users.name')
-        //         ->latest()->paginate(5);
+    /**
+     * Display all categories and trashed categories.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function AllCat()
+    {
+        // Retrieve all categories and trashed categories from the database
         $categories = Category::latest()->paginate(5);
-        $trashCat=Category::onlyTrashed()->paginate(5);
+        $trashCat = Category::onlyTrashed()->paginate(5);
 
-        return view('admin.category.index',compact('categories','trashCat'));
-
+        // Return the categories to the view
+        return view('admin.category.index', compact('categories', 'trashCat'));
     }
 
-    public function AddCat(Request $request){
+    /**
+     * Add a new category.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function AddCat(Request $request)
+    {
+        // Validate the user input
         $validatedData = $request->validate([
             'category_name' => 'required|unique:categories|max:255',
-
-        ],   // validation form required
-        [
-            'category_name.required' => 'Please Input Category Name',
-            'category_name.max' => 'Category Less Then 255Chars',
+        ], [
+            'category_name.required' => 'Please input the category name.',
+            'category_name.max' => 'Category name must be less than 255 characters.',
         ]);
 
+        // Insert the new category into the database
         Category::insert([
             'category_name' => $request->category_name,
             'user_id' => Auth::user()->id,
             'created_at' => Carbon::now()
         ]);
 
-        // Approach 1: Eloquent ORM
-        // $category = new Category;
-        // $category->category_name = $request->category_name;
-        // $category->user_id = Auth::user()->id;
-        // $category->save();
-        //Approach 2: Query Builder
-        // $data = array();
-        // $data['category_name'] = $request->category_name;
-        // $data['user_id'] = Auth::user()->id;
-        // DB::table('categories')->insert($data);
-
-        return Redirect()->back()->with('success','Category Inserted Successfull');
-
+        // Redirect back with success message
+        return Redirect()->back()->with('success', 'Category inserted successfully.');
     }
 
-    public function Edit($id){
+    /**
+     * Edit an existing category.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function Edit($id)
+    {
+        // Find the category by ID
+        $categories = Category::find($id);
 
-        //dd($id);
-        $categories=Category::find($id);
-
-        //dd($categories);
-
-        return view('admin.category.edit',compact('categories'));
-
+        // Return the category to the view for editing
+        return view('admin.category.edit', compact('categories'));
     }
 
-    public function Update(Request $request ,$id){
-
-        //  elaquant ORM
-         $update = Category::find($id)->update([
+    /**
+     * Update an existing category.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function Update(Request $request, $id)
+    {
+        // Update the category in the database
+        $update = Category::find($id)->update([
             'category_name' => $request->category_name,
             'user_id' => Auth::user()->id
         ]);
-        // sql db
-       // $data = array();
-       // $data['category_name'] = $request->category_name;
-       //  $data['user_id'] = Auth::user()->id;
-       // DB::table('categories')->where('id',$id)->update($data);
-        return Redirect()->route('category.all')->with('success','Category Updated Successfull');
 
+        // Redirect to the category list with success message
+        return Redirect()->route('category.all')->with('success', 'Category updated successfully.');
     }
-    // Methode softdelete
-    public function SoftDelete($id){
+
+    /**
+     * Soft delete a category.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function SoftDelete($id)
+    {
+        // Soft delete the category from the database
         $delete = Category::find($id)->delete();
-        return Redirect()->back()->with('success','Category Soft Delete Successfully');
+
+        // Redirect back with success message
+        return Redirect()->back()->with('success', 'Category soft deleted successfully.');
     }
 
-    public function Restore($id){
-
+    /**
+     * Restore a soft deleted category.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function Restore($id)
+    {
+        // Restore the soft deleted category in the database
         $delete = Category::withTrashed()->find($id)->restore();
-        return Redirect()->back()->with('success','Category Restore Successfully');
 
+        // Redirect back with success message
+        return Redirect()->back()->with('success', 'Category restored successfully.');
     }
-
-
 }

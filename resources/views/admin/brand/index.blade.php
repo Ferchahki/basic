@@ -21,12 +21,12 @@
                             @endif
                         @endonce
 
-                        <div class="card-header"> All Category </div>
+                        <div class="card-header"> All Brand </div>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">ID No</th>
-                                    <th scope="col"> Brnad Name </th>
+                                    <th scope="col">Brnad Name</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Created At</th>
                                     <th scope="col">Action</th>

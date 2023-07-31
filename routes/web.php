@@ -31,7 +31,7 @@ Route::get('/softdelete/category/{id}',[CategoryController::class, 'SoftDelete']
 Route::get('/category/restore/{id}',[CategoryController::class, 'Restore']);
 
 Route::get('/brand/all',[BrandController::class,'index'])->name('brand.index');
-Route::post('/brand/add', [BrandController::class, 'create'])->name('brand.store');
+Route::post('/brand/add', [BrandController::class, 'store'])->name('brand.store');
 
 
 
