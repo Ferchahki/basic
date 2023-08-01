@@ -112,6 +112,10 @@ class BrandController extends Controller
     public function edit($id)
     {
         //
+        $brands = Brand::find($id);
+
+        // Return the brand to the view for editing
+        return view('admin.brand.edit', compact('brands'));
     }
 
     /**
@@ -124,6 +128,57 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validatedData = $request->validate([
+            'brand_name' => 'required|min:4',
+
+        ],
+        [
+            'brand_name.required' => 'Please Input Brand Name',
+            'brand_image.min' => 'Brand Longer then 4 Characters',
+        ]);
+
+        $old_image = $request->old_image;
+
+        $brand_image =  $request->file('brand_image');
+
+        if($brand_image){
+
+        $name_gen = hexdec(uniqid());
+        $img_ext = strtolower($brand_image->getClientOriginalExtension());
+        $img_name = $name_gen.'.'.$img_ext;
+        $up_location = 'image/brand/';
+        $last_img = $up_location.$img_name;
+        $brand_image->move($up_location,$img_name);
+
+        unlink($old_image);
+        Brand::find($id)->update([
+            'brand_name' => $request->brand_name,
+            'brand_image' => $last_img,
+            'created_at' => Carbon::now()
+        ]);
+
+        $notification = array(
+            'message' => 'Brand Updated Successfully',
+            'alert-type' => 'info'
+        );
+
+        return Redirect()->back()->with($notification);
+
+        }else{
+            Brand::find($id)->update([
+                'brand_name' => $request->brand_name,
+                'created_at' => Carbon::now()
+            ]);
+            $notification = array(
+                'message' => 'Brand Updated Successfully',
+                'alert-type' => 'warning'
+            );
+
+            return Redirect()->back()->with($notification);
+
+        }
+
+        return Redirect()->back();
     }
 
     /**
@@ -135,5 +190,15 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
+
     }
+
+    public function SoftDelete($id)
+    {
+        // Soft delete the Brand from the database
+        $delete = Brand::find($id)->delete();
+        // Redirect back with success message
+        return Redirect()->back()->with('success', 'Brand  deleted successfully.');
+    }
+
 }

@@ -99,6 +99,7 @@ class CategoryController extends Controller
 
         // Redirect to the category list with success message
         return Redirect()->route('category.all')->with('success', 'Category updated successfully.');
+
     }
 
     /**

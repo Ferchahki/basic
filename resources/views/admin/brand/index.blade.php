@@ -49,10 +49,10 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{-- <a href="{{ url('category/edit/' . $brand->id) }}"
+                                            <a href="{{ url('brand/edit/' . $brand->id) }}"
                                               class="btn btn-info">Edit</a>
-                                          <a href="{{ url('softdelete/category/' . $brand->id) }}"
-                                              class="btn btn-danger">Delete</a> --}}
+                                          <a href="{{ url('softdelete/brand/' . $brand->id) }}"
+                                              class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
