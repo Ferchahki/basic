@@ -29,12 +29,20 @@ Route::get('/category/edit/{id}',[CategoryController::class, 'Edit'])->name('cat
 Route::post('/category/update/{id}',[CategoryController::class, 'Update']);
 Route::get('/softdelete/category/{id}',[CategoryController::class, 'SoftDelete']);
 Route::get('/category/restore/{id}',[CategoryController::class, 'Restore']);
-
+/*
+Controller Resources Brand
+ */
 Route::get('/brand/all',[BrandController::class,'index'])->name('brand.index');
 Route::post('/brand/add', [BrandController::class, 'store'])->name('brand.store');
 Route::get('/brand/edit/{id}',[BrandController::class, 'Edit'])->name('brand.edit');
 Route::post('/brand/update/{id}',[BrandController::class, 'Update']);
 Route::get('/softdelete/brand/{id}',[BrandController::class, 'SoftDelete']);
+
+/*
+Controller Resources MultiPicture
+ */
+
+ Route::get('/multipic/image',[BrandController::class,'Multipic'])->name('multipic.image');
 
 
 
