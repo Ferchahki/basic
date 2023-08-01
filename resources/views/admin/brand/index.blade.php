@@ -33,48 +33,59 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                  <!-- @php($i = 1) -->
-                                @foreach ($brand as $brand)
-                                  <tr>
-                                      <th scope="row"> {{ $brand->firstItem() + $loop->index }} </th>
-                                      <td> {{ $brand->brand_name}} </td>
-                                      <td> </td>
-                                      <td>
-                                          @if ($brand->created_at == null)
-                                              <span class="text-danger"> No Date Set</span>
-                                          @else
-                                              {{ Carbon\Carbon::parse($brand->created_at)->diffForHumans() }}
-                                          @endif
-                                      </td>
-                                      <td>
-                                          {{-- <a href="{{ url('category/edit/' . $brand->id) }}"
+                                <!-- @php($i = 1) -->
+                                @foreach ($brands as $brand)
+                                    <tr>
+                                        <th scope="row"> {{ $brands->firstItem() + $loop->index }} </th>
+                                        <td> {{ $brand->brand_name }} </td>
+                                        <td>
+                                            <img src="{{ asset($brand->brand_image) }}" style="height:70px; width:70px;" >
+                                        </td>
+                                        <td>
+                                            @if ($brand->created_at == null)
+                                                <span class="text-danger"> No Date Set</span>
+                                            @else
+                                                {{ Carbon\Carbon::parse($brand->created_at)->diffForHumans() }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{-- <a href="{{ url('category/edit/' . $brand->id) }}"
                                               class="btn btn-info">Edit</a>
                                           <a href="{{ url('softdelete/category/' . $brand->id) }}"
                                               class="btn btn-danger">Delete</a> --}}
-                                      </td>
-                                  </tr>
-                                 @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>
-                        {{$brand->links()}}
+                        {{ $brands->links() }}
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header"> Add Brand </div>
                         <div class="card-body">
-                            <form action="{{ route('brand.store') }}" method="POST">
+                            <form action="{{ route('brand.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Brnad Name</label>
-                                    <input type="text" name="brand_name" class="form-control"
-                                        id="exampleInputEmail1" aria-describedby="emailHelp"><br>
-                                    <input type="file" name="brand_image" class="form-control"
-                                        id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <label for="exampleInputEmail1">Brand Name</label>
+                                    <input type="text" name="brand_name" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp">
+
                                     @error('brand_name')
                                         <span class="text-danger"> {{ $message }}</span>
                                     @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Brand Image</label>
+                                    <input type="file" name="brand_image" class="form-control"
+                                        id="exampleInputEmail1" aria-describedby="emailHelp">
+
+                                    @error('brand_image')
+                                        <span class="text-danger"> {{ $message }}</span>
+                                    @enderror
+
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-primary">Add Brand</button>
@@ -86,9 +97,9 @@
         </div>
         <!-- Trash Part -->
 
-        </div>
+    </div>
 
-        <!-- End Trush -->
+    <!-- End Trush -->
 
 
 

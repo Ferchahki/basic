@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Image;
 use Auth;
+use Intervention\Image\Facades\Image;
+
 
 /**
  * The BrandController class handles the CRUD operations related to the Brand model.
@@ -30,8 +31,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brand = Brand::latest()->paginate(5);
-        return view('admin.brand.index', compact('brand'));
+        $brands = Brand::latest()->paginate(5);
+        return view('admin.brand.index', compact('brands'));
     }
 
     /**
@@ -53,30 +54,33 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'brand_name' => 'required|unique:brands|min:255',
-            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'brand_name' => 'required|unique:brands|min:4',
+            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif',
+
         ],
         [
-            'brand_name.required' => 'Please input the brand name.',
-            'brand_image.min' => 'Please input the brand name.',
+            'brand_name.required' => 'Please Input Brand Name',
+            'brand_image.min' => 'Brand Longer then 4 Characters',
         ]);
 
+        $brand_image =  $request->file('brand_image');
 
+        $name_gen = hexdec(uniqid());
+        $img_ext = strtolower($brand_image->getClientOriginalExtension());
+        $img_name = $name_gen.'.'.$img_ext;
+        $up_location = 'image/brand/';
+        $last_img = $up_location.$img_name;
+        $brand_image->move($up_location,$img_name);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
+        // $name_gen = hexdec(uniqid()).'.'.$brand_image->getClientOriginalExtension();
+       // Image::make($brand_image)->resize(300,200)->save('image/brand/'.$name_gen);
+        // $last_img = 'image/brand/'.$name_gen;
 
-            // You may want to save the image path to your database here if needed.
-            Brand::insert([
-                'brand_name' => $request->brand_name,
-                'brand_image' => $image,
-                'created_at' => Carbon::now()
-            ]);
-        }
-
-
+        Brand::insert([
+            'brand_name' => $request->brand_name,
+            'brand_image' => $last_img,
+            'created_at' => Carbon::now()
+        ]);
 
         $notification = array(
             'message' => 'Brand Inserted Successfully',
@@ -84,7 +88,6 @@ class BrandController extends Controller
         );
 
         return Redirect()->back()->with($notification);
-
 
 
     }
