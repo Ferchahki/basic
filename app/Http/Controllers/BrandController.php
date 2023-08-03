@@ -7,7 +7,7 @@ use App\Models\Multipic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Auth;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 
 
 /**
@@ -73,8 +73,8 @@ class BrandController extends Controller
         $last_img = $up_location.$img_name;
         $brand_image->move($up_location,$img_name);
 
-        // $name_gen = hexdec(uniqid()).'.'.$brand_image->getClientOriginalExtension();
-       // Image::make($brand_image)->resize(300,200)->save('image/brand/'.$name_gen);
+        //$name_gen = hexdec(uniqid()).'.'.$brand_image->getClientOriginalExtension();
+        //ImageManage::make($brand_image)->resize(300,200)->save('image/brand/'.$name_gen);
         // $last_img = 'image/brand/'.$name_gen;
 
         Brand::insert([
@@ -209,6 +209,35 @@ class BrandController extends Controller
         $images=Multipic::all();
 
         return view('admin.multipic.index',compact('images'));
+
+    }
+
+    public function StoreImage(Request $request) {
+
+        $images =  $request->file('image');
+
+        foreach($images as $multi_img){
+
+
+            $name_gen = hexdec(uniqid());
+            $img_ext = strtolower($multi_img->getClientOriginalExtension());
+            $img_name = $name_gen.'.'.$img_ext;
+            $up_location = 'image/multi/';
+            $last_img = $up_location.$img_name;
+            $multi_img->move($up_location,$img_name);
+            $last_img = 'image/multi/'.$multi_img;
+
+            Multipic::insert([
+
+            'image' => $last_img,
+            'created_at' => Carbon::now()
+        ]);
+
+        } // end of the foreach
+
+
+
+            return Redirect()->back()->with('success','Brand Inserted Successfully');
 
     }
 

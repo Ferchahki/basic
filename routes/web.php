@@ -43,7 +43,7 @@ Controller Resources MultiPicture
  */
 
  Route::get('/multipic/image',[BrandController::class,'Multipic'])->name('multipic.image');
-
+ Route::post('/multipic/add',[BrandController::class,'StoreImage'])->name('multipic.store');
 
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
