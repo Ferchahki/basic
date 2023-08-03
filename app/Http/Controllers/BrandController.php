@@ -214,30 +214,32 @@ class BrandController extends Controller
 
     public function StoreImage(Request $request) {
 
-        $images =  $request->file('image');
+        $validatedData = $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+        ],
+        [
+            'brand_image.min' => 'Brand Longer then 4 Characters',
+        ]);
 
-        foreach($images as $multi_img){
+        $brand_image =  $request->file('image');
 
+        $name_gen = hexdec(uniqid());
+        $img_ext = strtolower($brand_image->getClientOriginalExtension());
+        $img_name = $name_gen.'.'.$img_ext;
+        $up_location = 'image/multi/';
+        $last_img = $up_location.$img_name;
+        $brand_image->move($up_location,$img_name);
 
-            $name_gen = hexdec(uniqid());
-            $img_ext = strtolower($multi_img->getClientOriginalExtension());
-            $img_name = $name_gen.'.'.$img_ext;
-            $up_location = 'image/multi/';
-            $last_img = $up_location.$img_name;
-            $multi_img->move($up_location,$img_name);
-            $last_img = 'image/multi/'.$multi_img;
+        //$images =  $request->file('image');
 
-            Multipic::insert([
-
+        Multipic::insert([
             'image' => $last_img,
             'created_at' => Carbon::now()
         ]);
 
-        } // end of the foreach
 
-
-
-            return Redirect()->back()->with('success','Brand Inserted Successfully');
+        // end of the foreach
+       return Redirect()->back()->with('success','Brand Inserted Successfully');
 
     }
 

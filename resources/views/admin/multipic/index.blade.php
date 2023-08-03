@@ -26,23 +26,19 @@
                     <div class="card">
                         <div class="card-header"> Multi Image </div>
                         <div class="card-body">
-
                             <form action="{{ route('multipic.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Multi Image</label>
-                                    <input type="file" name="image[]" class="form-control" id="exampleInputEmail1"
+                                    <input type="file" name="image" class="form-control" id="exampleInputEmail1"
                                         aria-describedby="emailHelp" multiple="">
-
                                     @error('image')
                                         <span class="text-danger"> {{ $message }}</span>
                                     @enderror
-
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-primary">Add Image</button>
                             </form>
-
                         </div>
 
                     </div>
