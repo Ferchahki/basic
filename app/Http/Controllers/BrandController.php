@@ -243,4 +243,6 @@ class BrandController extends Controller
 
     }
 
+
+
 }

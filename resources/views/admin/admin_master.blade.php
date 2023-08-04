@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Easy - Admin Dashboard </title>
+  <title>Dasboarad </title>
 
   <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet"/>
@@ -39,26 +39,19 @@
   <![endif]-->
   <script src="{{ asset('backend/assets/plugins/nprogress/nprogress.js') }}"></script>
 </head>
-
-
   <body class="sidebar-fixed sidebar-dark header-light header-fixed" id="body">
-    <script>
-      NProgress.configure({ showSpinner: false });
-      NProgress.start();
-    </script>
-
+        <script>
+        NProgress.configure({ showSpinner: false });
+        NProgress.start();
+        </script>
     <div class="mobile-sticky-body-overlay"></div>
-
     <div class="wrapper">
-
-              <!--
-          ====================================
+    <!--
+        ====================================
           ——— LEFT SIDEBAR WITH FOOTER
-          =====================================
-        -->
+        =====================================
+    -->
      @include('admin.body.sidebar')
-
-
 
       <div class="page-wrapper">
                   <!-- Header -->
@@ -166,7 +159,15 @@
                       </li>
 
                       <li class="dropdown-footer">
-                        <a href=""> <i class="mdi mdi-logout"></i> Log Out </a>
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+
+                            <x-responsive-nav-link href="{{ route('logout') }}"
+                                           @click.prevent="$root.submit();">
+                                           <i class="mdi mdi-logout"></i>
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
                       </li>
                     </ul>
                   </li>
