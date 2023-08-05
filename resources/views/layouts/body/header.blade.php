@@ -31,7 +31,7 @@
           <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="blog.html">Blog</a></li>
-          <li><a href="{{ route('contact') }}">Contact</a></li>
+          <li><a href="">Contact</a></li>
           <li><a href="{{ route('login') }}">Login</a></li>
 
         </ul>

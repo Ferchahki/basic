@@ -5,7 +5,8 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Multipic;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +23,13 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 
-
 Route::get('/', function () {
-    return view('home');
+    $brands = DB::table('brands')->get();
+    $abouts = DB::table('abouts')->first();
+    $images = Multipic::all();
+    return view('home', compact('brands','abouts','images'));
 });
+
 
 
 
@@ -46,6 +50,9 @@ Route::post('/brand/add', [BrandController::class, 'store'])->name('brand.store'
 Route::get('/brand/edit/{id}',[BrandController::class, 'Edit'])->name('brand.edit');
 Route::post('/brand/update/{id}',[BrandController::class, 'Update']);
 Route::get('/softdelete/brand/{id}',[BrandController::class, 'SoftDelete']);
+
+Route::get('/portfolio', [AboutController::class, 'Portfolio'])->name('portfolio');
+
 
 /*
 Controller Resources MultiPicture
