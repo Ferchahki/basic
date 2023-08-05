@@ -159,15 +159,7 @@
                       </li>
 
                       <li class="dropdown-footer">
-                        <form method="POST" action="{{ route('logout') }}" x-data>
-                            @csrf
-
-                            <x-responsive-nav-link href="{{ route('logout') }}"
-                                           @click.prevent="$root.submit();">
-                                           <i class="mdi mdi-logout"></i>
-                                {{ __('Log Out') }}
-                            </x-responsive-nav-link>
-                        </form>
+                        <a href="{{ route('user.logout') }}"> <i class="mdi mdi-logout"></i> Log Out </a>
                       </li>
                     </ul>
                   </li>

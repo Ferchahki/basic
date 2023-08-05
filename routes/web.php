@@ -68,6 +68,6 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 
 });
 
-Route::post('/user/logout', [BrandController::class, 'Logout'])->name('user.logout');
+Route::get('/user/logout', [BrandController::class, 'Logout'])->name('user.logout');
 
 
