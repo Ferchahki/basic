@@ -2,6 +2,6 @@
 
 @section('admin')
 
-
+    <h1>Welcom</h1>
 
 @endsection
