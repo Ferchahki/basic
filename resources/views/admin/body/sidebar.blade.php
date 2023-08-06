@@ -25,31 +25,27 @@
                     </a>
                     <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                         <div class="sub-menu">
-
-
-
                             <li class="active">
                                 <a class="sidenav-item-link" href="">
                                     <span class="nav-text">Slider</span>
-
                                 </a>
                             </li>
                             <li class="active">
-                                <a class="sidenav-item-link" href="">
+                                <a class="sidenav-item-link" href="{{route('home.about')}}">
                                     <span class="nav-text">Home About</span>
 
                                 </a>
                             </li>
 
                             <li class="active">
-                                <a class="sidenav-item-link" href="">
+                                <a class="sidenav-item-link" href="{{ route('multipic.image') }}">
                                     <span class="nav-text">Home Portfolio</span>
 
                                 </a>
                             </li>
 
                             <li class="active">
-                                <a class="sidenav-item-link" href="">
+                                <a class="sidenav-item-link" href="{{route('brand.index')}}">
                                     <span class="nav-text">Home Brand</span>
 
                                 </a>
@@ -121,10 +117,6 @@
                         </div>
                     </ul>
                 </li>
-
-
-
-
 
                 <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#pages"

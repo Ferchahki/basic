@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Carbon\Carbon;
@@ -53,7 +54,13 @@ Route::get('/softdelete/brand/{id}',[BrandController::class, 'SoftDelete']);
 
 Route::get('/portfolio', [AboutController::class, 'Portfolio'])->name('portfolio');
 
-
+// Home About All Route
+Route::get('/home/About', [AboutController::class, 'HomeAbout'])->name('home.about');
+Route::get('/add/About', [AboutController::class, 'AddAbout'])->name('add.about');
+Route::post('/store/About', [AboutController::class, 'StoreAbout'])->name('store.about');
+Route::get('/about/edit/{id}', [AboutController::class, 'EditAbout']);
+Route::post('/update/homeabout/{id}', [AboutController::class, 'UpdateAbout']);
+Route::get('/about/delete/{id}', [AboutController::class, 'DeleteAbout']);
 /*
 Controller Resources MultiPicture
  */
