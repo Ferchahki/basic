@@ -159,7 +159,7 @@
               <img src="{{ $brand->brand_image  }}" class="img-fluid" alt="">
             </div>
           </div>
-          @endforeach
+        @endforeach
         </div>
       </div>
     </section><!-- End Our Clients Section -->
