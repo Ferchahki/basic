@@ -13,7 +13,7 @@ class HomeController extends Controller
     //
     public function HomeSlider(){
 
-        $sliders=Slider::all();
+        $sliders=Slider::latest()->get();
 
         return view('admin.slider.index',compact('sliders'));
 
