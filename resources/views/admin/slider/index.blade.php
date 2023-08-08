@@ -43,7 +43,9 @@
                                         <th scope="row"> {{ $i++ }} </th>
                                         <td> {{ $slider->title }} </td>
                                         <td> {{ $slider->description }} </td>
-                                        <td> <img src="{{ asset($slider->image) }}" style="height:40px; width:70px;"> </td>
+                                        <td>
+                                        <img src="{{ asset($slider->image) }}" style="height:40px; width:70px;">
+                                        </td>
                                         <td>
                                             <a href="{{ url('slider/edit/' . $slider->id) }}" class="btn btn-info">Edit</a>
                                             <a href="{{ url('slider/delete/' . $slider->id) }}"

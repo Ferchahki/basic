@@ -28,10 +28,15 @@ class HomeController extends Controller
         $slider_image =  $request->file('image');
 
 
-        $name_gen = hexdec(uniqid()).'.'.$slider_image->getClientOriginalExtension();
-        Image::make($slider_image)->resize(1920,1088)->save('image/slider/'.$name_gen);
 
-        $last_img = 'image/slider/'.$name_gen;
+        $name_gen = hexdec(uniqid());
+        $img_ext = strtolower($slider_image->getClientOriginalExtension());
+        $img_name = $name_gen.'.'.$img_ext;
+        $up_location = 'image/slider/';
+        $last_img = $up_location.$img_name;
+        //dd($last_img);
+        $slider_image->move($up_location,$img_name);
+
 
         Slider::insert([
             'title' => $request->title,
